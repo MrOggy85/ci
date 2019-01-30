@@ -1,0 +1,40 @@
+{
+  "name": "ci",
+  "version": "0.0.1",
+  "description": "Simple Continous Integration",
+  "main": "src/index.js",
+  "scripts": {
+    "babel-node": "babel-node --presets=/*a*/ ",
+    "clean": "rm -rf dist && mkdir dist",
+    "start": "nodemon --exec babel-node -- ./src/app.js",
+    "debug": "nodemon --inspect-brk --exec babel-node -- ./src/app.js",
+    "build": "babel -d dist src -s"
+  },
+  "author": "Oskar Lindgren <lindgren.oskar@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "app-root-path": "^2.1.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "logform": "^1.9.1",
+    "morgan": "^1.9.1",
+    "morgan-body": "^2.4.5",
+    "winston": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-security": "^1.4.0",
+    "nodemon": "^1.18.3"
+  }
+}
