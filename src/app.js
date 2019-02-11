@@ -7,9 +7,16 @@ import bodyParser from 'body-parser';
 import logger from 'morgan';
 import morganBody from 'morgan-body';
 import winston from './config/winston';
+import crypto from 'crypto';
 
 import fs from 'fs';
 import childProcess from 'child_process';
+
+// application error handler
+process.on('uncaughtException', (err) => {
+  winston.error('APPLICATION FAILED', err);
+  process.exit(1);
+});
 
 // ------------- API Node Server Setup -------------
 const app = express();
@@ -29,10 +36,14 @@ app.use((req, res, next) => {
   next();
 });
 
-const BASE_URL = process.env.BASE_URL || '';
-winston.info(`base URL is: ${BASE_URL}`);
+if (!process.env.REPO_ID_JAPANESE_FRONTENT) {
+  throw new Error('ENV: REPO_ID_JAPANESE_FRONTENT not set');
+}
 
-console.log('process.cwd()', process.cwd());
+const repos = {
+  speakingJapaneseFrontend: Number(process.env.REPO_ID_JAPANESE_FRONTENT),
+};
+
 const workDir = process.cwd();
 
 const tempFolderExists = fs.existsSync(`${workDir}/temp`);
@@ -40,16 +51,65 @@ if (!tempFolderExists) {
   fs.mkdirSync(`${workDir}/temp`);
 }
 
-// ------------- Game Router -------------
-app.post(`${BASE_URL}/payload`, (req, res) => {
-  const execFileSync = childProcess.execFileSync;
+if (!process.env.GITHUB_SECRET) {
+  throw new Error('ENV: GITHUB_SECRET not set');
+}
+const gitHubsecret = process.env.GITHUB_SECRET;
 
-  const stout = execFileSync(`${__dirname}/scripts/speaking-japanese-frontend.sh`, {
+function getSignature(secret) {
+  const generator = crypto.createHash('sha1');
+  generator.update(secret);
+  return `sha1=${generator.digest('hex')}`;
+}
+
+let isJobProcessing = false;
+
+// ------------- Payload Router -------------
+const BASE_URL = process.env.BASE_URL || '';
+app.post(`${BASE_URL}/payload`, (req, res) => {
+  // 1. Check secret match
+  const expectedSignature = getSignature(gitHubsecret);
+
+  if (req.headers['x-hub-signature'] !== expectedSignature) {
+    winston.warn(`x-hub-signature ${req.headers['x-hub-signature']} does not match expected`);
+    const err = new Error('Credentials mismatch');
+    err.status = 401;
+    throw err;
+  }
+
+  // 2. Check which push
+  if (req.body.repository.id !== repos.speakingJapaneseFrontend) {
+    winston.warn(`request repo id ${req.body.repository.id} does not match expected`);
+    const err = new Error('Repo ID mismatch');
+    err.status = 400;
+    throw err;
+  }
+
+  // 3. Check if job is in process
+  if (isJobProcessing) {
+    const err = new Error('Job is in Progress');
+    err.status = 400;
+    throw err;
+  }
+
+  // 4. Start Job
+  const child = childProcess.execFile(`${__dirname}/scripts/speaking-japanese-frontend.sh`, [], {
     cwd: `${workDir}/temp`,
   });
-  console.log(stout);
+  isJobProcessing = true;
 
-  res.send(stout);
+  child.stdout.on('data', (data) => {
+    winston.info(`[build-script] ${data}`);
+  });
+
+  child.on('exit', (code, signal) => {
+    isJobProcessing = false;
+
+    winston.info('build-script exited with ' +
+      `code ${code} and signal ${signal}`);
+  });
+
+  res.send('ok');
 });
 
 // 404
@@ -61,7 +121,8 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -76,8 +137,14 @@ app.use((err, req, res) => {
   });
 });
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5050;
 
 app.listen(port, async () => {
   winston.info(`server listens to port ${port}`);
+  winston.info(`ENV used:
+    process.env.PORT: ${process.env.PORT}
+    process.env.BASE_URL: ${process.env.BASE_URL}
+    process.env.REPO_ID_JAPANESE_FRONTENT: ${process.env.REPO_ID_JAPANESE_FRONTENT}
+    process.env.GITHUB_SECRET: ${process.env.GITHUB_SECRET}
+    `);
 });
