@@ -1,7 +1,7 @@
 {
   "name": "ci",
   "version": "0.0.1",
-  "description": "Simple Continous Integration",
+  "description": "Simple Continuous Integration",
   "main": "src/app.js",
   "scripts": {
     "babel-node": "babel-node --presets=/*a*/ ",
