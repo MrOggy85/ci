@@ -1,0 +1,9 @@
+node_modules/
+logs/
+temp/
+dist/
+README.md
+LICENSE
+.gitignore
+.eslintrc.js
+Dockerfile
