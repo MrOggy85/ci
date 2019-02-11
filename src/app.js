@@ -108,6 +108,12 @@ app.post(`${BASE_URL}/payload`, (req, res) => {
     winston.info('build-script exited with ' +
       `code ${code} and signal ${signal}`);
   });
+  child.on('error', (code, signal) => {
+    isJobProcessing = false;
+
+    winston.error('build-script exited with ' +
+      `code ${code} and signal ${signal}`);
+  });
 
   res.send('ok');
 });

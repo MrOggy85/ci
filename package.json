@@ -8,7 +8,7 @@
     "clean": "rm -rf dist && mkdir dist",
     "start": "nodemon --exec babel-node -- ./src/app.js",
     "debug": "nodemon --inspect-brk --exec babel-node -- ./src/app.js",
-    "build": "babel -d dist src -s"
+    "build": "babel -d dist src -s --copy-files"
   },
   "author": "Oskar Lindgren <lindgren.oskar@gmail.com>",
   "license": "MIT",
