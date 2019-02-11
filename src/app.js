@@ -56,9 +56,10 @@ if (!process.env.GITHUB_SECRET) {
 }
 const gitHubsecret = process.env.GITHUB_SECRET;
 
-function getSignature(secret) {
-  const generator = crypto.createHash('sha1');
-  generator.update(secret);
+function getSignature(secret, body) {
+  const bodyStringified = JSON.stringify(body);
+  const generator = crypto.createHmac('sha1', secret);
+  generator.update(bodyStringified);
   return `sha1=${generator.digest('hex')}`;
 }
 
@@ -68,7 +69,7 @@ let isJobProcessing = false;
 const BASE_URL = process.env.BASE_URL || '';
 app.post(`${BASE_URL}/payload`, (req, res) => {
   // 1. Check secret match
-  const expectedSignature = getSignature(gitHubsecret);
+  const expectedSignature = getSignature(gitHubsecret, req.body);
 
   if (req.headers['x-hub-signature'] !== expectedSignature) {
     winston.warn(`x-hub-signature ${req.headers['x-hub-signature']} does not match expected`);
