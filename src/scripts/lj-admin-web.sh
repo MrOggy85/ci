@@ -7,7 +7,7 @@ pwd
 whoami
 
 echo 'Removing folder "lj-admin"'
-rm -rf lj-admin
+rm -rf learning-japanese-admin-web
 
 echo 'git clone learning-japanese-admin-web'
 git clone https://github.com/MrOggy85/learning-japanese-admin-web.git
