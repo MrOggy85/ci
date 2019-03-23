@@ -10,7 +10,7 @@ echo 'Removing folder "lj-admin"'
 rm -rf lj-admin
 
 echo 'git clone learning-japanese-admin-web'
-git clone git@github.com:MrOggy85/learning-japanese-admin-web.git
+git clone https://github.com/MrOggy85/learning-japanese-admin-web.git
 
 cd learning-japanese-admin-web
 
