@@ -152,11 +152,20 @@ app.post(`${BASE_URL}/payload`, (req, res) => {
     winston.info(`[build-script] ${data}`);
   });
 
+  child.stderr.on('data', (data) => {
+    winston.info(`[build-script-error] ${data}`);
+  });
+
   child.on('exit', (code, signal) => {
     isJobProcessing = false;
 
-    winston.info('build-script exited with ' +
+    if (code === 0) {
+      winston.info('build-script exited with ' +
       `code ${code} and signal ${signal}`);
+    } else {
+      winston.error('build-script exited with ' +
+      `code ${code} and signal ${signal}`);
+    }
   });
   child.on('error', (code, signal) => {
     isJobProcessing = false;
