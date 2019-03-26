@@ -5,9 +5,9 @@ Very basic attempt to make a personal CI for minimal use case.
 
 ## Background
 
-I am running a server with all my apps on using docker. Since I'm a cheapskate I only have a server with 1 GB RAM. This makes running Jenkins problematic. And I can't use a cloud based CI since I will run into the same problem as this solution is currently addressing.
+I am running a server with all my apps on using docker. Since I'm a cheapskate I only have a server with 1 GB RAM. ~~This makes running Jenkins problematic~~ (actually with some swap the machine won't crash). And I can't use a cloud based CI since I will run into the same problem as this solution is currently addressing. 
 
-I realized that I only needed a service that listens for a Githook and run a build script. Simple as pie.
+I realized that I only needed a service that listens for a Githook and run a build script. Simple as pie. 
 
 ## Technical Description
 
