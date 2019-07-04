@@ -8,7 +8,9 @@
     "clean": "rm -rf dist && mkdir dist",
     "start": "nodemon --exec babel-node -- ./src/app.js",
     "debug": "nodemon --inspect-brk --exec babel-node -- ./src/app.js",
-    "build": "babel -d dist src -s --copy-files"
+    "build": "babel -d dist src -s --copy-files",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Oskar Lindgren <lindgren.oskar@gmail.com>",
   "license": "MIT",
@@ -22,7 +24,8 @@
     "logform": "^1.9.1",
     "morgan": "^1.9.1",
     "rimraf": "^2.6.3",
-    "winston": "^3.0.0"
+    "winston": "^3.0.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -38,5 +41,6 @@
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-security": "^1.4.0",
     "nodemon": "^1.18.3"
-  }
+  },
+  "snyk": true
 }
