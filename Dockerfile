@@ -1,16 +1,25 @@
-FROM node:10.15
+FROM node:10.14.1-alpine AS builder
 
-# Create app directory
-WORKDIR /usr/src/app
+WORKDIR /home/node/app
 
-COPY package*.json ./
-
-RUN npm install
-
-# Bundle app source
 COPY . .
 
-RUN npm run build
+RUN node --max_old_space_size=512 `which npm` ci && \
+    node --max_old_space_size=512 `which npm` run build
+
+# ---- Second Stage -----
+# ------------------------------------
+FROM node:10.14.1-alpine
+ENV NODE_ENV=production
+WORKDIR /home/node/app
+
+COPY ./package* ./
+
+RUN node --max_old_space_size=512 `which npm` ci && \
+    node --max_old_space_size=512 `which npm` cache clean --force
+
+# Copy builded source from the upper builder stage
+COPY --from=builder /home/node/app/dist ./dist
 
 EXPOSE 5050
 
