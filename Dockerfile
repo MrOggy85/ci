@@ -1,4 +1,4 @@
-FROM node:10.14.1-alpine AS builder
+FROM node:10.16.3-alpine AS builder
 
 WORKDIR /home/node/app
 
@@ -9,7 +9,7 @@ RUN node --max_old_space_size=512 `which npm` ci && \
 
 # ---- Second Stage -----
 # ------------------------------------
-FROM node:10.14.1-alpine
+FROM node:10.16.3-alpine
 ENV NODE_ENV=production
 WORKDIR /home/node/app
 
