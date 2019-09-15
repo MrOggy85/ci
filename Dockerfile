@@ -21,6 +21,9 @@ RUN node --max_old_space_size=512 `which npm` ci && \
 # Copy builded source from the upper builder stage
 COPY --from=builder /home/node/app/dist ./dist
 
+RUN apk update && \
+  apk add git
+
 EXPOSE 5050
 
 CMD [ "node", "./dist/app" ]
