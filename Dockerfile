@@ -18,6 +18,8 @@ COPY ./package* ./
 RUN node --max_old_space_size=512 `which npm` ci && \
     node --max_old_space_size=512 `which npm` cache clean --force
 
+ENV NODE_ENV=''
+
 # Copy builded source from the upper builder stage
 COPY --from=builder /home/node/app/dist ./dist
 
