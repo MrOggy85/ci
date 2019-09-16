@@ -10,7 +10,9 @@ RUN node --max_old_space_size=512 `which npm` ci && \
 # ---- Second Stage -----
 # ------------------------------------
 FROM node:10.16.3-alpine
+
 ENV NODE_ENV=production
+
 WORKDIR /home/node/app
 
 COPY ./package* ./
@@ -18,11 +20,12 @@ COPY ./package* ./
 RUN node --max_old_space_size=512 `which npm` ci && \
     node --max_old_space_size=512 `which npm` cache clean --force
 
-ENV NODE_ENV=''
+ENV NODE_ENV=
 
 # Copy builded source from the upper builder stage
 COPY --from=builder /home/node/app/dist ./dist
 
+# Install Git
 RUN apk update && \
   apk add git
 
