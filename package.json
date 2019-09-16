@@ -1,6 +1,6 @@
 {
   "name": "ci",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple Continuous Integration",
   "main": "src/app.js",
   "scripts": {
@@ -13,30 +13,30 @@
   "author": "Oskar Lindgren <lindgren.oskar@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "app-root-path": "^2.1.0",
-    "body-parser": "^1.18.3",
+    "@babel/runtime": "^7.6.0",
+    "app-root-path": "^2.2.1",
+    "body-parser": "^1.19.0",
     "crypto": "^1.0.1",
-    "dotenv": "^6.0.0",
-    "express": "^4.16.3",
-    "logform": "^1.9.1",
+    "dotenv": "^6.2.0",
+    "express": "^4.17.1",
+    "logform": "^1.10.0",
     "morgan": "^1.9.1",
-    "rimraf": "^2.6.3",
-    "winston": "^3.0.0"
+    "rimraf": "^2.7.1",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/node": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/preset-env": "^7.0.0",
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/node": "^7.6.1",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
     "babel-eslint": "^7.2.3",
-    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^4.10.0",
-    "eslint-config-airbnb-base": "12.1.0",
-    "eslint-plugin-import": "2.8.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-security": "^1.4.0",
-    "nodemon": "^1.18.3"
+    "nodemon": "^1.19.2"
   }
 }
