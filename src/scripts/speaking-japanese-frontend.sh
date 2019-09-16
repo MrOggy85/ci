@@ -6,20 +6,22 @@ pwd
 
 whoami
 
-echo 'Removing folder "speaking-japanese"'
+echo -e 'Removing folder "speaking-japanese"\n'
 rm -rf speaking-japanese
 
-echo 'git clone speaking-japanese'
+echo -e 'git clone speaking-japanese\n'
 git clone https://github.com/MrOggy85/speaking-japanese.git
 
 cd speaking-japanese
 
-pwd
+export NODE_ENV=
 
-echo 'npm install'
+echo -e 'npm install\n'
 npm install
 
-echo 'npm run build'
+export NODE_ENV=production
+
+echo -e 'npm run build\n'
 npm run build
 
 echo 'rm -rf -v /www/speaking-japanese'

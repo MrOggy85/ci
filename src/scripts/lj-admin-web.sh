@@ -2,24 +2,22 @@
 
 set -e
 
-pwd
-
-whoami
-
-echo 'Removing folder "lj-admin"'
+echo -e 'Removing folder "lj-admin"\n'
 rm -rf learning-japanese-admin-web
 
-echo 'git clone learning-japanese-admin-web'
+echo -e 'git clone learning-japanese-admin-web\n'
 git clone https://github.com/MrOggy85/learning-japanese-admin-web.git
 
 cd learning-japanese-admin-web
 
-pwd
+export NODE_ENV=
 
-echo 'npm install'
+echo -e 'npm install\n'
 npm install
 
-echo 'npm run build'
+export NODE_ENV=production
+
+echo -e 'npm run build\n'
 npm run build
 
 echo 'rm -rf -v /www/lj-admin'
