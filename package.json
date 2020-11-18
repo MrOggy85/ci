@@ -10,7 +10,10 @@
     "debug": "nodemon --inspect-brk --exec babel-node -- ./src/app.js",
     "build": "babel -d dist src -s --copy-files"
   },
-  "author": "Oskar Lindgren <lindgren.oskar@gmail.com>",
+  "author": {
+    "name": "Oskar Lindgren",
+    "url": "https://www.oskarlindgren.se"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.6.0",
